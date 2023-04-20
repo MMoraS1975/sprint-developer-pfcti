@@ -59,6 +59,6 @@ class ClienteServiceTest {
                     return cliente;
                 }
         ).collect(Collectors.toList());
-        assertEquals(:1,:1);
+        assertEquals(1,1);
     }
 }
