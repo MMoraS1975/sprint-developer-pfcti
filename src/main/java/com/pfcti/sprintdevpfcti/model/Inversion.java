@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class inversion {
+public class Inversion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

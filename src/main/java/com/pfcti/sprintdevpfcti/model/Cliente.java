@@ -19,13 +19,13 @@ public class Cliente {
     @Column(name = "nombre")
     private String nombre;
     @Column(length = 30)
-    private String apellido;
+    private String apellidos;
     @Column(columnDefinition = "varchar(15)")
     private String cedula;
     @Column
     private String telefono;
-
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cliente")//, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    // default @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
     private List<Direccion> direcciones;
 
 }
