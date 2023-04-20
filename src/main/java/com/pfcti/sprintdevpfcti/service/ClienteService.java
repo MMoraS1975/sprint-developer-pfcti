@@ -27,7 +27,7 @@ public class ClienteService {
                 .orElseThrow(() -> {
                     throw new RuntimeException("Cliente no existe");
                 }
-    );
+        );
     ClienteDto clienteDto = new ClienteDto();
     clienteDto.setId(cliente.getId());
     clienteDto.setNombre(cliente.getNombre());
@@ -39,10 +39,11 @@ public class ClienteService {
 
     public void actualizarCliente (ClienteDto clienteDto){
         Cliente cliente = new Cliente();
-        cliente.setNombre(clienteDto.getNombre());
-        cliente.setApellidos(clienteDto.getApellidos());
         cliente.setCedula(clienteDto.getCedula());
+        cliente.setId(clienteDto.getId());
         cliente.setTelefono(clienteDto.getTelefono());
+        cliente.setApellidos(clienteDto.getApellidos());
+        cliente.setNombre(clienteDto.getNombre());
         clienteRepository.save(cliente);
     }
 

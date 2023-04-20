@@ -20,15 +20,18 @@ class ClienteServiceTest {
     @Test
     void insertarCliente() {
 
-        List<Cliente> listaClientes = entityManager.createQuery("SELECT c FROM Cliente c").getResultList();
-        System.out.println(">>>>>> Lista antes de insertar:  "+listaClientes.size());
+        List<Cliente> listaClientes = entityManager.createQuery("SELECT c FROM TCliente c").getResultList();
+        System.out.println(">>>>>> Lista antes de insertar:  "+ listaClientes.size());
         ClienteDto clienteDto = new ClienteDto();
         clienteDto.setNombre("MAINOR");
         clienteDto.setApellidos("MARA");
         clienteDto.setCedula("2525224");
         clienteDto.setTelefono("50685524587");
         clienteService.insertarCliente(clienteDto);
-        assertEquals(1, 1);
+        listaClientes = entityManager.createQuery("SELECT c FROM TCliente c").getResultList();
+        System.out.println(">>>>> Lista despues de insertar: " + listaClientes.size());
+
+        assertEquals(3, listaClientes.size());
     }
 
     @Test
