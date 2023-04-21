@@ -105,6 +105,13 @@ class ClienteServiceTest {
         assertEquals("SANCHEZ", clienteDtos.get(0).getApellidos());
     }
 
+    @Test
+    void obtenerClientesPorCodigoISOPaisYTarjetaInactiva() {
+        List<ClienteDto> clienteDtos = clienteService.obtenerClientesPorCodigoISOPaisYTarjetaInactiva("CR");
+        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " +clienteDto.getApellidos());});
+        assertEquals(1, clienteDtos.size());
+    }
+
 
 //    @Test
 //    void obtenerClientes() {

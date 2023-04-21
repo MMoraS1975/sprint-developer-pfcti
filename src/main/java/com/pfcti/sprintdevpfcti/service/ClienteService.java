@@ -132,4 +132,13 @@ public class ClienteService {
         //clienteDto.setTelefono(cliente.getTelefono());
         return clienteDto;
     }
+
+    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYTarjetaInactiva(String codigoISOPais){
+        List<ClienteDto> clienteDtos = new ArrayList<>();
+        List<Cliente> cliente = clienteRepository.findClientesByPaisAndTarjeta_EstadoIsFalse(codigoISOPais);
+        cliente.forEach(clientes ->{
+            clienteDtos.add(fromClienteToClienteDto(clientes));
+        });
+        return clienteDtos;
+    }
 }
