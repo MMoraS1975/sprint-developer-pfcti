@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+
     List<Cliente> findClientesByPaisAndCuentas_EstadoIsTrue(String pais);
 
     @Query(value = "select c from Cliente c where c.apellidos = :apellidos")
@@ -22,4 +23,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     @Query(value = "update Cliente c set c.nombre =:nombre where c.apellidos =:apellidos")
     void updateClienteByQuery(String nombre, String apellidos);
 
+    List<Cliente> findByApellidosAndAndNombre(String apellidos, String nombre);
 }
+

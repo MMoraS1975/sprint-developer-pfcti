@@ -97,6 +97,14 @@ class ClienteServiceTest {
         assertNotEquals(clienteDtoOriginal.getNombre(), clienteDtoCambiado.getNombre());
     }
 
+    @Test
+    void findByApellidosAndAndNombre() {
+        List<ClienteDto> clienteDtos = clienteService.findByApellidosAndAndNombre("SANCHEZ", "RAUL");
+        System.out.println("CLIENTE ENCONTRADO: " +clienteDtos.get(0).getApellidos());
+        assertFalse(clienteDtos.isEmpty());
+        assertEquals("SANCHEZ", clienteDtos.get(0).getApellidos());
+    }
+
 
 //    @Test
 //    void obtenerClientes() {
