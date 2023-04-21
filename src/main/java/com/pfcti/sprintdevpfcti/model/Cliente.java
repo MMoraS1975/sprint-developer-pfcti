@@ -22,10 +22,13 @@ public class Cliente {
     private String apellidos;
     @Column(columnDefinition = "varchar(15)")
     private String cedula;
+    private String pais;
     @Column
     private String telefono;
     @OneToMany(mappedBy = "cliente")//, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     // default @OneToMany(mappedBy = "cliente", fetch = FetchType.EAGER)
     private List<Direccion> direcciones;
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Cuenta> cuentas;
 }

@@ -20,7 +20,7 @@ class ClienteServiceTest {
     @Test
     void insertarCliente() {
 
-        List<Cliente> listaClientes = entityManager.createQuery("SELECT c FROM TCliente c").getResultList();
+        List<Cliente> listaClientes = entityManager.createQuery("SELECT c FROM Cliente c").getResultList();
         System.out.println(">>>>>> Lista antes de insertar:  "+ listaClientes.size());
         ClienteDto clienteDto = new ClienteDto();
         clienteDto.setNombre("MAINOR");
@@ -28,7 +28,7 @@ class ClienteServiceTest {
         clienteDto.setCedula("2525224");
         clienteDto.setTelefono("50685524587");
         clienteService.insertarCliente(clienteDto);
-        listaClientes = entityManager.createQuery("SELECT c FROM TCliente c").getResultList();
+        listaClientes = entityManager.createQuery("SELECT c FROM Cliente c").getResultList();
         System.out.println(">>>>> Lista despues de insertar: " + listaClientes.size());
 
         assertEquals(3, listaClientes.size());
@@ -52,16 +52,73 @@ class ClienteServiceTest {
         assertEquals("SALAZAR", clienteDtoLuegoDeUpdate.getApellidos());
     }
 
+
     @Test
     void obtenerClientes() {
-        clienteService.obtenerClientes()
-                .stream()
-                .map(
-                cliente -> {
-                    System.out.println(">>>>>>> Cliente :" + cliente.getApellidos());
-                    return cliente;
-                }
-        ).collect(Collectors.toList());
+        List<ClienteDto> clienteDtos = clienteService.obtenerClientes();
+        clienteDtos.forEach(cliente -> System.out.println("Cliente: " + cliente.getApellidos()));
+        assertEquals(2, clienteDtos.size());
+    }
+
+    @Test
+    void obtenerClientesPorCodigoISOPaisYCuentasActivas() {
+        List<ClienteDto> clienteDtos = clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("CR");
+        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " +clienteDto.getApellidos());});
+        assertEquals(1, clienteDtos.size());
+    }
+
+    @Test
+    void eliminarCliente() {
+        clienteService.eliminarCliente(1);
         assertEquals(1,1);
     }
+
+    @Test
+    void buscarPorApellidos() {
+        List<ClienteDto> clienteDtos = clienteService.buscarPorApellidos("SANCHEZ");
+        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: "+clienteDto.getApellidos());});
+        assertEquals(1,clienteDtos.size());
+    }
+
+    @Test
+    void buscarPorApellidosQueryNativo() {
+        List<ClienteDto> clienteDtos = clienteService.buscarPorApellidosQueryNativo("SANCHEZ");
+        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: "+clienteDto.getApellidos());});
+        assertEquals(1,clienteDtos.size());
+    }
+
+    @Test
+    void updateClienteByQuery() {
+        ClienteDto clienteDtoOriginal = clienteService.buscarPorApellidos("SANCHEZ").get(0);
+        System.out.println("NOMBRE ORIGINAL: " + clienteDtoOriginal.getNombre());
+        clienteService.updateClienteByQuery("CAMBIO EL NOMBRE", "SANCHEZ");
+        ClienteDto clienteDtoCambiado = clienteService.buscarPorApellidos("SANCHEZ").get(0);
+        System.out.println("NOMBRE CAMBIADO: " + clienteDtoCambiado.getNombre());
+        assertNotEquals(clienteDtoOriginal.getNombre(), clienteDtoCambiado.getNombre());
+    }
+
+
+//    @Test
+//    void obtenerClientes() {
+//        ClienteDto clienteDto = new ClienteDto();
+//        clienteDto.setId(3);
+//        clienteDto.setNombre("ALBERTO");
+//        clienteDto.setApellidos("SALAZAR");
+//        clienteDto.setCedula("12311111111");
+//        clienteDto.setTelefono("09997999999");
+//        clienteService.actualizarCliente(clienteDto);
+//        clienteService
+//                .obtenerClientes()
+//                .forEach( cliente -> System.out.println("Cliente: "+ cliente.getApellidos()));
+//        assertEquals(1,1);
+
+        //clienteService.obtenerClientes()
+        //        .stream()
+        //        .map(
+        //        cliente -> {
+        //            System.out.println(">>>>>>> Cliente :" + cliente.getApellidos());
+        //            return cliente;
+        //        }
+        //).collect(Collectors.toList());
+   // }
 }
