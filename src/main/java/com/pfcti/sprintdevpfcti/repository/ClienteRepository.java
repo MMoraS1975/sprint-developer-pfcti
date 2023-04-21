@@ -19,7 +19,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     List<Tuple> buscarPorApellidosQueryNativo(String apellidos);
 
     @Modifying
-    @Query(value = "update Cliente c set c.nombre =:nombre where c.apellido =:apellidos")
+    @Query(value = "update Cliente c set c.nombre =:nombre where c.apellidos =:apellidos")
     void updateClienteByQuery(String nombre, String apellidos);
 
 }
