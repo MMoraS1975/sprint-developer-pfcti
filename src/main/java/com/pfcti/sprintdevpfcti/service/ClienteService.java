@@ -1,5 +1,6 @@
 package com.pfcti.sprintdevpfcti.service;
 
+import com.pfcti.sprintdevpfcti.criteria.ClienteSpecification;
 import com.pfcti.sprintdevpfcti.dto.ClienteDto;
 import com.pfcti.sprintdevpfcti.model.Cliente;
 import com.pfcti.sprintdevpfcti.repository.*;
@@ -22,6 +23,7 @@ public class ClienteService {
     private TarjetaRepository tarjetaRepository;
     private InversionRepository inversionRepository;
     private DireccionRepository direccionRepository;
+    private ClienteSpecification clienteSpecification;
 
     public void insertarCliente(ClienteDto clienteDto){
         Cliente cliente = new Cliente();
@@ -133,12 +135,22 @@ public class ClienteService {
         return clienteDto;
     }
 
-    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYTarjetaInactiva(String codigoISOPais){
-        List<ClienteDto> clienteDtos = new ArrayList<>();
-        List<Cliente> cliente = clienteRepository.findClientesByPaisAndTarjeta_EstadoIsFalse(codigoISOPais);
-        cliente.forEach(clientes ->{
-            clienteDtos.add(fromClienteToClienteDto(clientes));
-        });
-        return clienteDtos;
+    // ejercicio individual 1
+//    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYTarjetaInactiva(String codigoISOPais){
+//        List<ClienteDto> clienteDtos = new ArrayList<>();
+//        List<Cliente> cliente = clienteRepository.findClientesByPaisAndTarjeta_EstadoIsFalse(codigoISOPais);
+//        cliente.forEach(clientes ->{
+//            clienteDtos.add(fromClienteToClienteDto(clientes));
+//        });
+//        return clienteDtos;
+//    }
+
+    public List<ClienteDto> busquedaDinamicaPorCriterios(ClienteDto clienteDtoFilter){
+        return clienteRepository
+                .findAll(clienteSpecification.buildFilter(clienteDtoFilter))
+                .stream()
+                .map(this::fromClienteToClienteDto)
+                .collect(Collectors.toList());
     }
+
 }

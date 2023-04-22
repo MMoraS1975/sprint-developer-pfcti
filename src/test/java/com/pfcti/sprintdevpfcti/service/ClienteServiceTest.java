@@ -106,12 +106,51 @@ class ClienteServiceTest {
     }
 
     @Test
-    void obtenerClientesPorCodigoISOPaisYTarjetaInactiva() {
-        List<ClienteDto> clienteDtos = clienteService.obtenerClientesPorCodigoISOPaisYTarjetaInactiva("CR");
+    void busquedaDinamicaPorCriterios() {
+        List<ClienteDto> clienteDtos = clienteService.busquedaDinamicaPorCriterios(new ClienteDto());
+        assertFalse(clienteDtos.isEmpty());
         clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " +clienteDto.getApellidos());});
-        assertEquals(1, clienteDtos.size());
+        assertTrue(clienteDtos.size() >=2);
+
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDtos = clienteService.busquedaDinamicaPorCriterios(clienteDto);
+        clienteDtos.forEach(clienteDto2 -> {System.out.println("Cliente: " +clienteDto2.getApellidos() + clienteDto2.getNombre());});
+        assertTrue(clienteDtos.size() == 4);
+
+        clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDto.setNombre("HORACIO");
+        clienteDtos = clienteService.busquedaDinamicaPorCriterios(clienteDto);
+        clienteDtos.forEach(clienteDto3 -> {System.out.println("Cliente: " +clienteDto3.getApellidos());});
+        assertTrue(clienteDtos.size() == 1);
+
+
+        clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDto.setCedula("111");
+        clienteDtos = clienteService.busquedaDinamicaPorCriterios(clienteDto);
+        clienteDtos.forEach(clienteDto4 -> {System.out.println("Cliente: " +clienteDto4.getApellidos());});
+        assertTrue(clienteDtos.size() == 1);
+
+        clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDto.setNombre("HORACIO");
+        clienteDto.setCedula("1111");
+        clienteDtos = clienteService.busquedaDinamicaPorCriterios(clienteDto);
+        clienteDtos.forEach(clienteDto5 -> {System.out.println("Cliente: " +clienteDto5.getApellidos());});
+        assertTrue(clienteDtos.size() == 1);
+
     }
 
+    // ejercicio individual 1
+//    @Test
+//    void obtenerClientesPorCodigoISOPaisYTarjetaInactiva() {
+//        List<ClienteDto> clienteDtos = clienteService.obtenerClientesPorCodigoISOPaisYTarjetaInactiva("CR");
+//        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " +clienteDto.getApellidos());});
+//        assertEquals(1, clienteDtos.size());
+//    }
+//--------------------------------
 
 //    @Test
 //    void obtenerClientes() {
