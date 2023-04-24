@@ -3,9 +3,12 @@ package com.pfcti.sprintdevpfcti.criteria;
 import com.pfcti.sprintdevpfcti.dto.CuentaDto;
 import com.pfcti.sprintdevpfcti.model.Cuenta;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Locale;
+
+@Component
 public class CuentaSpecification {
 
     public <T>Specification<T> equals(String fieldName, String fieldValue){
