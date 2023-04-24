@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @SpringBootTest
 class CuentaServiceTest {
@@ -22,8 +24,11 @@ class CuentaServiceTest {
         List<CuentaDto> cuentas = cuentaService.busquedaDinamicamentePorCriteriosCuentas(cuentaDto);
         cuentas.forEach(
                 cuentaDtoResultado -> {
-                    System.out.println("Cuenta Resultado" + cuentaDtoResultado.getTipo()
-                    + cuentaDtoResultado.getNumero());
+                    System.out.println("Cuenta Resultado-"
+                            + "Tipo- " + cuentaDtoResultado.getTipo()
+                            + "Numero- " + cuentaDtoResultado.getNumero()
+                            + "Estado- " + cuentaDtoResultado.getEstado());
                 });
+        assertEquals(3,cuentas.size());
     }
 }
