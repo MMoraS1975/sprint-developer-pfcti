@@ -1,6 +1,7 @@
 package com.pfcti.sprintdevpfcti.api;
 
 import com.pfcti.sprintdevpfcti.dto.ClienteDto;
+import com.pfcti.sprintdevpfcti.dto.CuentaDto;
 import com.pfcti.sprintdevpfcti.service.CuentaService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +18,8 @@ public class CuentaApi {
     CuentaService cuentaService;
     @PostMapping
     public void guardarCuenta(@Valid @RequestBody CuentaDto clienteDto){
-        log.info("cliente de cliente : {}", clienteDto);
-        cuentaService.(clienteDto);
+//        log.info("cliente de cliente : {}", clienteDto);
+//        cuentaService.(clienteDto);
     }
 
 }
