@@ -41,10 +41,8 @@ class CuentaServiceTest {
         cuentaDto.setClienteId(1);
 
         cuentaService.insertarCuenta(cuentaDto);
-
         cuentaService.busquedaDinamicamentePorCriteriosCuentas(cuentaDto);
         List<CuentaDto> cuentaDtos = cuentaService.busquedaDinamicamentePorCriteriosCuentas(cuentaDto);
-
         assertEquals(1,1);
     }
 }

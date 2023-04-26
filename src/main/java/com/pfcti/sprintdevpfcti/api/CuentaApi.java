@@ -18,8 +18,8 @@ public class CuentaApi {
     CuentaService cuentaService;
     @PostMapping
     public void guardarCuenta(@Valid @RequestBody CuentaDto clienteDto){
-//        log.info("cliente de cliente : {}", clienteDto);
-//        cuentaService.(clienteDto);
+        log.info("cliente de cliente : {}", clienteDto);
+//        cuentaService.creacionDeCuenta(cuentaDto);
     }
 
 }
