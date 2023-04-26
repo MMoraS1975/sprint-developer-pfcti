@@ -31,4 +31,20 @@ class CuentaServiceTest {
                 });
         assertEquals(3,cuentas.size());
     }
+
+    @Test
+    void insertarCuenta() {
+        CuentaDto cuentaDto = new CuentaDto();
+        cuentaDto.setTipo("A");
+        cuentaDto.getNumero("123")
+        cuentaDto.setEstado(true);
+        cuentaDto.setClienteId(1);
+
+        cuentaService.insertarCuenta(cuentaDto);
+
+        cuentaService.busquedaDinamicamentePorCriteriosCuentas(cuentaDto);
+        List<CuentaDto> cuentaDtos = cuentaService.busquedaDinamicamentePorCriteriosCuentas(cuentaDto);
+
+        assertEquals(1,1);
+    }
 }
