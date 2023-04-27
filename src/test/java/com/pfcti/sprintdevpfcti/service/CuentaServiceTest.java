@@ -36,7 +36,7 @@ class CuentaServiceTest {
     void insertarCuenta() {
         CuentaDto cuentaDto = new CuentaDto();
         cuentaDto.setTipo("A");
-        cuentaDto.getNumero("123")
+//        cuentaDto.getNumero("123")
         cuentaDto.setEstado(true);
         cuentaDto.setClienteId(1);
 

@@ -25,7 +25,7 @@ public class ClienteService {
     private DireccionRepository direccionRepository;
     private ClienteSpecification clienteSpecification;
 
-    public void insertarCliente(ClienteDto clienteDto){
+    public void insertarCliente(ClienteDto clienteDto) {
         Cliente cliente = new Cliente();
         cliente.setNombre(clienteDto.getNombre());
         cliente.setApellidos(clienteDto.getApellidos());
@@ -35,22 +35,22 @@ public class ClienteService {
         clienteRepository.save(cliente);
     }
 
-    public ClienteDto obtenerCliente(int clienteId){
+    public ClienteDto obtenerCliente(int clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> {
-                    throw new RuntimeException("Cliente no existe");
-                }
-        );
-    ClienteDto clienteDto = new ClienteDto();
-    clienteDto.setId(cliente.getId());
-    clienteDto.setNombre(cliente.getNombre());
-    clienteDto.setApellidos(cliente.getApellidos());
-    clienteDto.setCedula(cliente.getCedula());
-    clienteDto.setTelefono(cliente.getTelefono());
-    return clienteDto;
+                            throw new RuntimeException("Cliente no existe");
+                        }
+                );
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setId(cliente.getId());
+        clienteDto.setNombre(cliente.getNombre());
+        clienteDto.setApellidos(cliente.getApellidos());
+        clienteDto.setCedula(cliente.getCedula());
+        clienteDto.setTelefono(cliente.getTelefono());
+        return clienteDto;
     }
 
-    public void actualizarCliente (ClienteDto clienteDto){
+    public void actualizarCliente(ClienteDto clienteDto) {
         Cliente cliente = clienteRepository.findById(clienteDto.getId())
                 .orElseThrow(() -> {
                             throw new RuntimeException("Cliente no existe");
@@ -74,16 +74,16 @@ public class ClienteService {
     }
 
 
-    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISOPais){
+    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISOPais) {
         List<ClienteDto> clienteDtos = new ArrayList<>();
         List<Cliente> cliente = clienteRepository.findClientesByPaisAndCuentas_EstadoIsTrue(codigoISOPais);
-        cliente.forEach(clientes ->{
+        cliente.forEach(clientes -> {
             clienteDtos.add(fromClienteToClienteDto(clientes));
         });
         return clienteDtos;
     }
 
-    public void eliminarCliente(Integer clienteId){
+    public void eliminarCliente(Integer clienteId) {
         direccionRepository.deleteAllByCliente_Id(clienteId);
         cuentaRepository.deleteAllByCliente_Id(clienteId);
         tarjetaRepository.deleteAllByCliente_Id(clienteId);
@@ -91,17 +91,17 @@ public class ClienteService {
         clienteRepository.deleteById(clienteId);
     }
 
-    public List<ClienteDto> buscarPorApellidos(String apellidos){
+    public List<ClienteDto> buscarPorApellidos(String apellidos) {
         List<ClienteDto> clienteDtos = new ArrayList<>();
         List<Cliente> clientes = clienteRepository.buscarPorApellidos(apellidos);
         clientes.forEach(cliente -> clienteDtos.add(fromClienteToClienteDto(cliente)));
         return clienteDtos;
     }
 
-    public List<ClienteDto> buscarPorApellidosQueryNativo(String apellidos){
+    public List<ClienteDto> buscarPorApellidosQueryNativo(String apellidos) {
         List<ClienteDto> clienteDtos = new ArrayList<>();
         List<Tuple> tuples = clienteRepository.buscarPorApellidosQueryNativo(apellidos);
-        tuples.forEach(tuple ->{
+        tuples.forEach(tuple -> {
             ClienteDto clienteDto = new ClienteDto();
             clienteDto.setApellidos((String) tuple.get("apellidos"));
             clienteDto.setNombre((String) tuple.get("nombre"));
@@ -113,19 +113,19 @@ public class ClienteService {
         return clienteDtos;
     }
 
-    public void updateClienteByQuery(String nombre, String apellidos){
+    public void updateClienteByQuery(String nombre, String apellidos) {
         clienteRepository.updateClienteByQuery(nombre, apellidos);
     }
 
-    public List<ClienteDto> findByApellidosAndAndNombre(String apellidos, String nombre){
+    public List<ClienteDto> findByApellidosAndAndNombre(String apellidos, String nombre) {
         return clienteRepository
-                .findByApellidosAndAndNombre(apellidos,nombre)
+                .findByApellidosAndAndNombre(apellidos, nombre)
                 .stream()
                 .map(this::fromClienteToClienteDto)
                 .collect(Collectors.toList());
     }
 
-    private ClienteDto fromClienteToClienteDto(Cliente cliente){
+    private ClienteDto fromClienteToClienteDto(Cliente cliente) {
         ClienteDto clienteDto = new ClienteDto();
         BeanUtils.copyProperties(cliente, clienteDto);
         //clienteDto.setId(cliente.getId());
@@ -146,12 +146,27 @@ public class ClienteService {
 //        return clienteDtos;
 //    }
 
-    public List<ClienteDto> busquedaDinamicaPorCriterios(ClienteDto clienteDtoFilter){
+    public List<ClienteDto> busquedaDinamicaPorCriterios(ClienteDto clienteDtoFilter) {
         return clienteRepository
                 .findAll(clienteSpecification.buildFilter(clienteDtoFilter))
                 .stream()
                 .map(this::fromClienteToClienteDto)
                 .collect(Collectors.toList());
+    }
+
+    public io.spring.guides.gs_producing_web_service.Cliente obtenerClienteSoap(int idCliente) {
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("Cliente No Existe");
+                });
+        io.spring.guides.gs_producing_web_service.Cliente clienteWs = new io.spring.guides.gs_producing_web_service.Cliente();
+        clienteWs.setId(cliente.getId());
+        clienteWs.setApellidos(cliente.getApellidos());
+        clienteWs.setNombre(cliente.getNombre());
+        clienteWs.setCedula(cliente.getCedula());
+        clienteWs.setTelefono(cliente.getTelefono());
+        clienteWs.setPais(cliente.getPais());
+        return clienteWs;
     }
 
 }
