@@ -2,12 +2,17 @@ package com.pfcti.sprintdevpfcti.service;
 
 import com.pfcti.sprintdevpfcti.criteria.ClienteSpecification;
 import com.pfcti.sprintdevpfcti.dto.ClienteDto;
+import com.pfcti.sprintdevpfcti.dto.CuentaDto;
+import com.pfcti.sprintdevpfcti.jms.publishers.NotificationPubSubSender;
 import com.pfcti.sprintdevpfcti.model.Cliente;
 import com.pfcti.sprintdevpfcti.repository.*;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,9 +20,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @Transactional
 @AllArgsConstructor
+
 public class ClienteService {
+
     private ClienteRepository clienteRepository;
     private CuentaRepository cuentaRepository;
     private TarjetaRepository tarjetaRepository;
@@ -168,5 +176,8 @@ public class ClienteService {
         clienteWs.setPais(cliente.getPais());
         return clienteWs;
     }
+
+
+
 
 }

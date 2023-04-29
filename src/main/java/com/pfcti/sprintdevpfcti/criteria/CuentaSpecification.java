@@ -52,4 +52,5 @@ public class CuentaSpecification {
                 .and(numeroCriteria(cuentaDto))
                 .and(estadoCriteria(cuentaDto));
     }
+
 }
